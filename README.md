@@ -1,52 +1,14 @@
 # SDET Practice Projects
 
-A **professional-grade collection of reusable utilities, base classes, and design patterns** for advanced test automation. This library demonstrates production-ready SDET practices for both **UI automation** (Selenium) and **API testing** (REST Assured).
+A **lightweight collection of core utilities and base classes** for test automation. This library provides foundational components for building Selenium-based UI automation frameworks with proper logging and test reporting infrastructure.
 
-Perfect for building scalable, maintainable automation frameworks from scratch.
+## What's Included
 
-## Features
+This project contains **3 core components**:
 
-✅ **Reusable Utilities**
-- BrowserUtils: WebDriver management, waits, actions
-- ScreenshotUtils: Automatic capture on failure
-- FileUtils: Excel, CSV, JSON operations
-- DateUtils: Date/time handling
-- DBUtils: Database connectivity & queries
-
-✅ **Base Classes**
-- BaseTest: Common setup/teardown, browser initialization
-- BasePage: Page Object fundamentals
-- BaseAPI: REST client patterns
-
-✅ **Advanced Listeners**
-- TestListener: Custom test execution reporting
-- RetryListener: Automatic retry on flaky tests
-- Screenshot integration on failure
-
-✅ **Design Patterns**
-- Singleton (Driver, Database)
-- Factory (Driver creation)
-- Builder (Test data construction)
-- Page Object Model (POM)
-
-✅ **Test Data Management**
-- Excel-based parameterization
-- JSON configuration files
-- CSV data readers
-- Database query providers
-
-✅ **Multi-Framework Support**
-- Selenium WebDriver 4.15.0 (UI)
-- REST Assured 5.3.2 (API)
-- TestNG 7.8.1 (Test execution)
-- WebDriverManager (Automatic driver management)
-
-✅ **Production Ready**
-- Parallel test execution
-- Comprehensive logging (Log4j)
-- Error handling & recovery
-- CI/CD integration ready
-- Apache Commons utilities
+1. **BaseTest** - Common test setup/teardown with browser initialization
+2. **TestListener** - Custom TestNG listener for detailed test execution logging
+3. **BrowserUtils** - Reusable Selenium helper methods with explicit waits
 
 ## Tech Stack
 
@@ -54,40 +16,32 @@ Perfect for building scalable, maintainable automation frameworks from scratch.
 |-----------|---------|---------|
 | Java | 11+ | Core language |
 | Selenium | 4.15.0 | UI automation |
-| REST Assured | 5.3.2 | API testing |
 | TestNG | 7.8.1 | Test framework |
-| WebDriverManager | 5.6.3 | Driver management |
-| Gson | 2.10.1 | JSON parsing |
+| WebDriverManager | 5.6.3 | Automatic driver management |
+| Gson | 2.10.1 | JSON handling |
 | Log4j | 1.2.17 | Logging |
-| Apache Commons | 2.11.0 | File operations |
+| Apache Commons | 2.11.0 | File utilities |
 | Maven | 3.6+ | Build tool |
 
-## Prerequisites
+## Installation
+
+### Prerequisites
 
 - **Java 11** or higher
 - **Maven 3.6.0+**
 - **Git**
 
-## Installation
-
-### 1. Clone the Repository
+### Setup
 
 ```bash
+# Clone the repository
 git clone https://github.com/robinsonmartinez23/SDET-Practice-Projects.git
 cd SDET-Practice-Projects
-```
 
-### 2. Install Dependencies
-
-```bash
+# Install dependencies
 mvn clean install
-```
 
-This downloads all dependencies and compiles the utility library.
-
-### 3. Verify Installation
-
-```bash
+# Verify installation
 mvn -version
 java -version
 ```
@@ -99,335 +53,334 @@ SDET-Practice-Projects/
 ├── src/
 │   ├── main/
 │   │   └── java/com/sdet/
-│   │       ├── base/                 # Base classes
-│   │       │   ├── BaseTest.java     # Common test setup
-│   │       │   ├── BasePage.java     # Page Object base
-│   │       │   └── BaseAPI.java      # API client base
-│   │       │
-│   │       ├── utils/                # Utility classes
-│   │       │   ├── BrowserUtils.java         # Selenium helpers
-│   │       │   ├── ScreenshotUtils.java     # Screenshot capture
-│   │       │   ├── FileUtils.java           # Excel/CSV/JSON
-│   │       │   ├── DateUtils.java           # Date operations
-│   │       │   ├── StringUtils.java         # String helpers
-│   │       │   └── DBUtils.java             # Database operations
-│   │       │
-│   │       ├── factory/              # Factory classes
-│   │       │   └── DriverFactory.java        # WebDriver creation
-│   │       │
-│   │       ├── listeners/            # TestNG listeners
-│   │       │   ├── TestListener.java         # Test reporting
-│   │       │   └── RetryListener.java        # Retry mechanism
-│   │       │
-│   │       ├── assertions/           # Custom assertions
-│   │       │   └── CustomAssertions.java     # Enhanced asserts
-│   │       │
-│   │       ├── enums/                # Enumerations
-│   │       │   ├── Browser.java              # Browser types
-│   │       │   └── WaitType.java             # Wait strategies
-│   │       │
-│   │       └── constants/            # Constants
-│   │           └── AppConstants.java         # App-wide constants
+│   │       ├── base/
+│   │       │   └── BaseTest.java          # Common test setup/teardown
+│   │       ├── listeners/
+│   │       │   └── TestListener.java      # TestNG event listener
+│   │       └── utils/
+│   │           └── BrowserUtils.java      # Selenium helper methods
 │   │
 │   └── test/
-│       └── java/com/sdet/
-│           └── tests/                # Example test classes
+│       └── java/                          # Test examples
 │
-├── pom.xml                           # Maven configuration
-├── README.md                         # This file
+├── pom.xml                                # Maven configuration
+├── README.md                              # This file
 └── .gitignore
-
 ```
 
-## Core Classes & Usage
+## Core Components
 
-### BaseTest: Common Test Setup
+### 1. BaseTest - Test Setup Foundation
+
+Located in: `src/main/java/com/sdet/base/BaseTest.java`
+
+Provides common setup and teardown for all tests with automatic browser initialization.
+
+**Supported Browsers:**
+- Chrome (default)
+- Firefox
+
+**What it does:**
+- Initializes WebDriver using WebDriverManager (no manual driver download needed)
+- Maximizes browser window
+- Provides navigateTo() method
+- Automatically quits driver after test
+- Logs all actions using Log4j
+
+**Usage:**
 
 ```java
 import com.sdet.base.BaseTest;
 import org.testng.annotations.Test;
 
-public class MyTests extends BaseTest {
-    
-    @Test
-    public void testExample() {
-        // driver is initialized automatically
-        driver.navigate().to("https://opencart.com");
-        
-        // WebDriverWait is pre-configured
-        // Screenshots captured automatically on failure
-        // Logging integrated
-    }
-}
-```
-
-**BaseTest provides:**
-- WebDriver initialization
-- Browser configuration
-- Explicit waits setup
-- Screenshot on failure
-- Test logging
-- Teardown & cleanup
-
-### BrowserUtils: Selenium Helpers
-
-```java
-import com.sdet.utils.BrowserUtils;
-import org.openqa.selenium.By;
-
-public class MyTest {
-    
-    public void testBrowserUtils() {
-        // Wait for element visibility
-        BrowserUtils.waitForElement(driver, By.id("element"), 15);
-        
-        // Click element with wait
-        BrowserUtils.clickElement(driver, By.id("button"));
-        
-        // Scroll to element
-        BrowserUtils.scrollToElement(driver, By.id("target"));
-        
-        // Type text with clear
-        BrowserUtils.typeText(driver, By.name("input"), "test data");
-        
-        // Get element attribute
-        String value = BrowserUtils.getAttribute(driver, By.id("elem"), "value");
-        
-        // Wait for multiple elements
-        BrowserUtils.waitForElements(driver, By.xpath("//li"), 10);
-        
-        // Switch to frame
-        BrowserUtils.switchToFrame(driver, By.id("iframe"));
-        
-        // Switch to alert & accept
-        BrowserUtils.acceptAlert(driver);
-    }
-}
-```
-
-**BrowserUtils methods:**
-- `waitForElement()` - Explicit wait with timeout
-- `clickElement()` - Safe click with wait
-- `typeText()` - Clear & type text
-- `getAttribute()` - Get element property
-- `scrollToElement()` - Scroll into view
-- `switchToFrame()` - Switch to iframe
-- `acceptAlert()` / `dismissAlert()` - Handle alerts
-- `getWindowHandles()` - Multi-window support
-
-### ScreenshotUtils: Automatic Capture
-
-```java
-import com.sdet.utils.ScreenshotUtils;
-import org.openqa.selenium.TakesScreenshot;
-
-public class MyTest {
-    
-    public void testScreenshots() {
-        // Capture screenshot with timestamp
-        String path = ScreenshotUtils.captureScreenshot(driver, "test_failure");
-        // Returns: screenshots/test_failure_2026-05-17-04-16-45.png
-        
-        // Capture with custom path
-        ScreenshotUtils.captureScreenshot(driver, "custom/path", "screenshot");
-    }
-}
-```
-
-**Automatically called on:**
-- Test failure in listener
-- Exception catching
-- Manual invocation
-
-### TestListener: Custom Reporting
-
-```java
-import com.sdet.listeners.TestListener;
-import org.testng.ITestListener;
-
-// Registered in testng.xml or via @Listeners annotation
-@Listeners(TestListener.class)
-public class MyTests {
-    
-    @Test
-    public void testWithReporting() {
-        // All test events logged automatically
-        // Screenshots captured on failure
-        // Timestamps recorded
-    }
-}
-```
-
-**TestListener handles:**
-- Test start/success/failure
-- Screenshot attachment
-- Logging to console & file
-- Execution timing
-- Failure reporting
-
-### RetryListener: Automatic Retry
-
-```java
-import com.sdet.listeners.RetryListener;
-import org.testng.annotations.Test;
-
-@Test(retryAnalyzer = RetryListener.class)
-public void testFlakeyElement() {
-    // Test will automatically retry on failure
-    // Default: 2 retries (configurable)
-}
-```
-
-Configure retry count:
-```java
-public int getMaxRetryCount() {
-    return 2;  // Number of retries
-}
-```
-
-### DriverFactory: Browser Initialization
-
-```java
-import com.sdet.factory.DriverFactory;
-
-public class TestSetup {
-    
-    public WebDriver setupDriver(Browser browser) {
-        WebDriver driver = DriverFactory.createDriver(browser);
-        // Browser launched with optimal options
-        return driver;
-    }
-}
-```
-
-**Supported browsers:**
-- CHROME
-- FIREFOX
-- EDGE
-- SAFARI
-
-### Custom Assertions
-
-```java
-import com.sdet.assertions.CustomAssertions;
-
-public class MyTest {
-    
-    public void testCustomAssertions() {
-        // Element visibility assertion
-        CustomAssertions.assertElementVisible(driver, By.id("elem"));
-        
-        // Element enabled assertion
-        CustomAssertions.assertElementEnabled(driver, By.id("button"));
-        
-        // Text present assertion
-        CustomAssertions.assertTextPresent(driver, "Expected Text");
-        
-        // Page title assertion
-        CustomAssertions.assertPageTitle(driver, "Expected Title");
-    }
-}
-```
-
-## Data-Driven Testing
-
-### Excel Data Provider
-
-```java
-import com.sdet.utils.FileUtils;
-
-public class DataDrivenTest {
-    
-    @DataProvider(name = "userData")
-    public Object[][] getUserData() {
-        return FileUtils.readExcel("testdata/users.xlsx", "Sheet1");
-    }
-    
-    @Test(dataProvider = "userData")
-    public void testWithExcelData(String email, String password) {
-        // Test with parameterized data
-    }
-}
-```
-
-### CSV Data Provider
-
-```java
-import com.sdet.utils.FileUtils;
-
-@DataProvider(name = "csvData")
-public Object[][] getCsvData() {
-    return FileUtils.readCSV("testdata/data.csv");
-}
-```
-
-### Database Data Provider
-
-```java
-import com.sdet.utils.DBUtils;
-
-@DataProvider(name = "dbData")
-public Object[][] getDatabaseData() {
-    return DBUtils.executeQuery("SELECT * FROM users WHERE active=1");
-}
-```
-
-## Example Usage in Projects
-
-### UI Automation Example
-
-```java
-import com.sdet.base.BaseTest;
-import com.sdet.utils.BrowserUtils;
-import org.testng.annotations.Test;
-
-public class LoginTests extends BaseTest {
+public class LoginTest extends BaseTest {
     
     @Test
     public void testLogin() {
-        // Navigate
-        driver.navigate().to("https://opencart.com");
+        // driver is initialized automatically via @BeforeMethod
+        navigateTo("https://opencart.com");
         
-        // Wait & interact
-        BrowserUtils.clickElement(driver, By.xpath("//a[contains(text(),'Login')]"));
-        BrowserUtils.typeText(driver, By.name("email"), "user@test.com");
-        BrowserUtils.typeText(driver, By.name("password"), "password123");
-        BrowserUtils.clickElement(driver, By.xpath("//button[@type='submit']"));
+        // Use Selenium WebDriver normally
+        driver.findElement(By.linkText("Login")).click();
         
-        // Assert
-        assert driver.findElement(By.xpath("//h1[contains(text(),'My Account')]")).isDisplayed();
+        // driver is automatically quit via @AfterMethod
     }
 }
 ```
 
-### API Testing Example
+**Run tests with different browser:**
+
+```bash
+# Run with Firefox
+mvn test -Dbrowser=firefox
+
+# Run with Chrome (default)
+mvn test -Dbrowser=chrome
+```
+
+**Methods:**
+- `setUp()` - Initializes WebDriver (called before each test)
+- `tearDown()` - Quits WebDriver (called after each test)
+- `navigateTo(String url)` - Navigate to URL and log action
+
+### 2. TestListener - Test Execution Logging
+
+Located in: `src/main/java/com/sdet/listeners/TestListener.java`
+
+Implements TestNG `ITestListener` interface to log detailed information about test execution.
+
+**What it captures:**
+- Test start (with separator)
+- Test success (with duration)
+- Test failure (with error message and duration)
+- Test skipped status
+- Test duration in milliseconds
+
+**Usage - Register in TestNG XML:**
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Test Suite">
+    <listeners>
+        <listener class-name="com.sdet.listeners.TestListener"/>
+    </listeners>
+    
+    <test name="Login Tests">
+        <classes>
+            <class name="com.sdet.tests.LoginTest"/>
+        </classes>
+    </test>
+</suite>
+```
+
+**Or use @Listeners annotation:**
 
 ```java
-import com.sdet.base.BaseAPI;
-import io.restassured.response.Response;
+import com.sdet.listeners.TestListener;
+import org.testng.annotations.Listeners;
 
-public class APITests extends BaseAPI {
+@Listeners(TestListener.class)
+public class LoginTest extends BaseTest {
     
     @Test
-    public void testGetUsers() {
-        Response response = getRequest("https://api.example.com", "/users");
+    public void testLogin() {
+        // Test execution will be logged automatically
+    }
+}
+```
+
+**Sample Log Output:**
+
+```
+INFO  - ========== TEST START: testLogin ==========
+INFO  - ✓ TEST PASSED: testLogin
+INFO  - Test Duration: 5432 ms
+```
+
+On failure:
+```
+ERROR - ✗ TEST FAILED: testLogin
+ERROR - Failure Message: java.lang.AssertionError: Expected element not found
+ERROR - Test Duration: 3210 ms
+```
+
+**Methods:**
+- `onTestStart()` - Logs test start
+- `onTestSuccess()` - Logs pass and duration
+- `onTestFailure()` - Logs failure, error message, and duration
+- `onTestSkipped()` - Logs skipped status
+- `onTestFailedButWithinSuccessPercentage()` - Logs partial success
+
+### 3. BrowserUtils - Selenium Helper Methods
+
+Located in: `src/main/java/com/sdet/utils/BrowserUtils.java`
+
+Collection of static utility methods for common Selenium operations with **explicit waits built-in**.
+
+**Available Methods:**
+
+#### 1. clickElement(WebDriver driver, WebElement element, int timeoutSeconds)
+Waits for element to be clickable, then clicks it.
+
+```java
+import com.sdet.utils.BrowserUtils;
+
+BrowserUtils.clickElement(driver, loginButton, 10);
+```
+
+#### 2. sendKeys(WebDriver driver, WebElement element, String text, int timeoutSeconds)
+Clears element and sends text with explicit wait.
+
+```java
+BrowserUtils.sendKeys(driver, emailField, "user@test.com", 10);
+```
+
+#### 3. getText(WebDriver driver, WebElement element, int timeoutSeconds)
+Gets text from element with visibility wait.
+
+```java
+String message = BrowserUtils.getText(driver, successMessage, 10);
+```
+
+#### 4. waitForElementVisibility(WebDriver driver, WebElement element, int timeoutSeconds)
+Waits for element to be visible.
+
+```java
+BrowserUtils.waitForElementVisibility(driver, loadingSpinner, 15);
+```
+
+#### 5. selectByText(WebDriver driver, WebElement dropdown, String visibleText)
+Selects option from dropdown by visible text.
+
+```java
+BrowserUtils.selectByText(driver, countryDropdown, "United States");
+```
+
+#### 6. selectByValue(WebDriver driver, WebElement dropdown, String value)
+Selects option from dropdown by value attribute.
+
+```java
+BrowserUtils.selectByValue(driver, countryDropdown, "US");
+```
+
+#### 7. switchToIframe(WebDriver driver, WebElement iframeElement)
+Switches to iframe.
+
+```java
+BrowserUtils.switchToIframe(driver, paymentIframe);
+```
+
+#### 8. switchToMainContent(WebDriver driver)
+Switches back to main page from iframe.
+
+```java
+BrowserUtils.switchToMainContent(driver);
+```
+
+#### 9. acceptAlert(WebDriver driver, int timeoutSeconds)
+Waits for alert and accepts it.
+
+```java
+BrowserUtils.acceptAlert(driver, 10);
+```
+
+#### 10. getAlertText(WebDriver driver, int timeoutSeconds)
+Gets alert text before accepting.
+
+```java
+String alertMessage = BrowserUtils.getAlertText(driver, 10);
+```
+
+#### 11. scrollToElement(WebDriver driver, WebElement element)
+Scrolls element into view using JavaScript.
+
+```java
+BrowserUtils.scrollToElement(driver, footerElement);
+```
+
+#### 12. executeJavaScript(WebDriver driver, String script, Object... args)
+Executes custom JavaScript.
+
+```java
+BrowserUtils.executeJavaScript(driver, "arguments[0].style.display='block';", element);
+```
+
+#### 13. waitForPageLoad(WebDriver driver, int timeoutSeconds)
+Waits for page to load (document readyState = "complete").
+
+```java
+BrowserUtils.waitForPageLoad(driver, 15);
+```
+
+## Complete Example Test
+
+```java
+import com.sdet.base.BaseTest;
+import com.sdet.listeners.TestListener;
+import com.sdet.utils.BrowserUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
+
+@Listeners(TestListener.class)
+public class LoginTest extends BaseTest {
+    
+    @Test
+    public void testValidLogin() {
+        // Navigate to app
+        navigateTo("https://opencart.com");
         
-        response.then()
-            .statusCode(200)
-            .body("users.size()", Matchers.greaterThan(0));
+        // Wait for page to load
+        BrowserUtils.waitForPageLoad(driver, 15);
+        
+        // Find elements
+        WebElement loginLink = driver.findElement(By.linkText("Login"));
+        WebElement emailInput = driver.findElement(By.name("email"));
+        WebElement passwordInput = driver.findElement(By.name("password"));
+        WebElement submitButton = driver.findElement(By.xpath("//button[@type='submit']"));
+        
+        // Click login link
+        BrowserUtils.clickElement(driver, loginLink, 10);
+        
+        // Enter credentials
+        BrowserUtils.sendKeys(driver, emailInput, "user@test.com", 10);
+        BrowserUtils.sendKeys(driver, passwordInput, "password123", 10);
+        
+        // Submit form
+        BrowserUtils.clickElement(driver, submitButton, 10);
+        
+        // Wait for success message
+        WebElement successMsg = driver.findElement(By.className("success-message"));
+        BrowserUtils.waitForElementVisibility(driver, successMsg, 10);
+        
+        // Assert
+        String message = BrowserUtils.getText(driver, successMsg, 10);
+        Assert.assertTrue(message.contains("Login successful"));
     }
     
     @Test
-    public void testCreateUser() {
-        String payload = "{\"name\": \"John\", \"email\": \"john@test.com\"}";
+    public void testDropdownSelection() {
+        navigateTo("https://example.com");
         
-        Response response = postRequest(
-            "https://api.example.com",
-            "/users",
-            payload
-        );
+        WebElement countryDropdown = driver.findElement(By.id("country"));
         
-        response.then().statusCode(201);
+        // Select by visible text
+        BrowserUtils.selectByText(driver, countryDropdown, "United States");
+        
+        // Verify selection
+        String selectedValue = countryDropdown.getAttribute("value");
+        Assert.assertEquals(selectedValue, "US");
+    }
+    
+    @Test
+    public void testIframeInteraction() {
+        navigateTo("https://example.com");
+        
+        WebElement iframe = driver.findElement(By.id("payment-iframe"));
+        BrowserUtils.switchToIframe(driver, iframe);
+        
+        // Interact with elements inside iframe
+        WebElement cardInput = driver.findElement(By.id("card-number"));
+        BrowserUtils.sendKeys(driver, cardInput, "4111111111111111", 10);
+        
+        // Switch back to main content
+        BrowserUtils.switchToMainContent(driver);
+    }
+    
+    @Test
+    public void testJavaScriptExecution() {
+        navigateTo("https://example.com");
+        
+        WebElement element = driver.findElement(By.id("hidden-element"));
+        
+        // Make hidden element visible
+        BrowserUtils.executeJavaScript(driver, "arguments[0].style.display='block';", element);
+        
+        // Now interact with it
+        BrowserUtils.clickElement(driver, element, 10);
     }
 }
 ```
@@ -437,258 +390,174 @@ public class APITests extends BaseAPI {
 ### Run All Tests
 
 ```bash
-mvn clean test
+mvn test
 ```
 
 ### Run Specific Test Class
 
 ```bash
-mvn test -Dtest=LoginTests
+mvn test -Dtest=LoginTest
 ```
 
-### Run Tests in Parallel
+### Run Specific Test Method
+
+```bash
+mvn test -Dtest=LoginTest#testValidLogin
+```
+
+### Run in Parallel
 
 ```bash
 mvn test -DforkCount=3 -DreuseForks=true
 ```
 
-### Run with Specific Browser
+### Run with Firefox
 
 ```bash
 mvn test -Dbrowser=firefox
 ```
 
-### Generate Reports
+## Logging
 
-After test execution, view reports in:
-- **Console:** Direct output
-- **Logs:** `target/logs/`
-- **Screenshots:** `target/screenshots/`
+Tests automatically log to console via Log4j. Configure logging in `log4j.properties` if needed.
 
-## Best Practices Demonstrated
+**Log locations:**
+- Console output: Real-time test execution logs
+- File: Configure in `log4j.properties`
 
-### 1. DRY Principle (Don't Repeat Yourself)
-All common operations centralized in utilities. No code duplication.
+## Common Patterns
 
-```java
-// ✅ GOOD - Using BrowserUtils
-BrowserUtils.waitForElement(driver, By.id("elem"), 15);
-
-// ❌ BAD - Duplicating wait logic
-WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-wait.until(ExpectedConditions.presenceOfElementLocated(By.id("elem")));
-```
-
-### 2. SOLID Principles
-
-**Single Responsibility:** Each utility handles one concern
-- BrowserUtils: Browser actions
-- ScreenshotUtils: Screenshots
-- FileUtils: File I/O
-
-**Open/Closed:** Easy to extend without modifying existing code
-```java
-// Extend BaseTest for custom setup
-public class MyCustomTest extends BaseTest {
-    @Override
-    public void setup() {
-        super.setup();
-        // Custom initialization
-    }
-}
-```
-
-### 3. Factory Pattern
-DriverFactory isolates driver creation complexity:
+### Pattern 1: Wait + Click + Assert
 
 ```java
-// Client doesn't know HOW driver is created
-WebDriver driver = DriverFactory.createDriver(Browser.CHROME);
+WebElement button = driver.findElement(By.id("submit"));
+BrowserUtils.waitForElementVisibility(driver, button, 10);
+BrowserUtils.clickElement(driver, button, 10);
+
+WebElement result = driver.findElement(By.className("result"));
+String text = BrowserUtils.getText(driver, result, 10);
+Assert.assertTrue(text.contains("Success"));
 ```
 
-### 4. Singleton Pattern
-Database connection as singleton:
+### Pattern 2: Form Fill
 
 ```java
-Connection conn = DBUtils.getConnection();
-// Always returns same instance
+WebElement nameField = driver.findElement(By.id("name"));
+WebElement emailField = driver.findElement(By.id("email"));
+WebElement submitBtn = driver.findElement(By.xpath("//button[@type='submit']"));
+
+BrowserUtils.sendKeys(driver, nameField, "John Doe", 10);
+BrowserUtils.sendKeys(driver, emailField, "john@test.com", 10);
+BrowserUtils.clickElement(driver, submitBtn, 10);
 ```
 
-### 5. Clear Naming Conventions
+### Pattern 3: Dropdown Selection + Verification
 
-| Component | Naming | Example |
-|-----------|--------|---------|
-| Utilities | `*Utils.java` | `BrowserUtils.java` |
-| Base Classes | `Base*.java` | `BaseTest.java` |
-| Listeners | `*Listener.java` | `TestListener.java` |
-| Factories | `*Factory.java` | `DriverFactory.java` |
+```java
+WebElement dropdown = driver.findElement(By.id("options"));
+BrowserUtils.selectByText(driver, dropdown, "Option 1");
 
-## CI/CD Integration
-
-### Jenkins Pipeline Example
-
-```groovy
-pipeline {
-    agent any
-    
-    stages {
-        stage('Build') {
-            steps {
-                sh 'mvn clean install'
-            }
-        }
-        
-        stage('Test') {
-            steps {
-                sh 'mvn test -DforkCount=3'
-            }
-        }
-        
-        stage('Report') {
-            steps {
-                publishHTML(target: [
-                    reportDir: 'target/screenshots',
-                    reportFiles: 'index.html'
-                ])
-            }
-        }
-    }
-}
+String selectedValue = dropdown.getAttribute("value");
+Assert.assertEquals(selectedValue, "option1");
 ```
 
 ## Troubleshooting
 
-### WebDriver Initialization Issues
+### NoSuchElementException
 
-**Problem:** Driver is null in test
-**Solution:** Ensure BaseTest setup method is called
-
-```java
-public class MyTest extends BaseTest {
-    @BeforeMethod
-    public void setup() {
-        super.setup();  // Don't forget super
-    }
-}
-```
-
-### Element Not Found
-
-**Problem:** `NoSuchElementException`
-**Solution:** Use BrowserUtils with explicit waits
+**Problem:** Element not found
+**Solution:** Use BrowserUtils with explicit waits before finding element
 
 ```java
 // ❌ NOT RECOMMENDED
 WebElement elem = driver.findElement(By.id("elem"));
 
 // ✅ RECOMMENDED
-BrowserUtils.waitForElement(driver, By.id("elem"), 15);
+BrowserUtils.waitForElementVisibility(driver, elem, 15);
 ```
 
-### Flaky Tests
+### StaleElementReferenceException
 
-**Problem:** Tests pass/fail intermittently
-**Solution:** Use RetryListener and explicit waits
+**Problem:** Element reference is stale
+**Solution:** Find element again instead of reusing old reference
 
 ```java
-@Test(retryAnalyzer = RetryListener.class)
-public void testFlakeyElement() {
-    BrowserUtils.waitForElement(driver, By.id("elem"), 15);
-    // More reliable
-}
+// ❌ PROBLEMATIC
+WebElement button = driver.findElement(By.id("button"));
+button.click();
+// Page updates...
+button.click();  // Stale reference!
+
+// ✅ CORRECT
+BrowserUtils.clickElement(driver, button, 10);
+// Find element again
+button = driver.findElement(By.id("button"));
+BrowserUtils.clickElement(driver, button, 10);
 ```
 
-### Screenshot Directory Missing
+### Test Timeout
 
-**Problem:** Screenshots not being saved
-**Solution:** Create screenshots folder
-
-```bash
-mkdir -p target/screenshots
-```
-
-Or configure in properties:
-
-```properties
-screenshot.dir=target/screenshots
-```
-
-## Advanced Features
-
-### Thread-Local WebDriver
-
-BaseTest uses ThreadLocal for parallel execution:
+**Problem:** Test takes too long
+**Solution:** Increase timeout or optimize waits
 
 ```java
-// Each thread gets isolated driver
-public static ThreadLocal<WebDriver> tlDriver = new ThreadLocal<>();
+// Increase timeout
+BrowserUtils.waitForElementVisibility(driver, element, 30);  // 30 seconds
 
-// In parallel execution
-@Test
-public void test1() {
-    // Uses thread-specific driver
-}
-
-@Test
-public void test2() {
-    // Uses different driver instance
-}
+// Or use shorter timeout if element loads quickly
+BrowserUtils.clickElement(driver, button, 5);  // 5 seconds
 ```
 
-### Logging Integration
+### Driver Not Initialized
+
+**Problem:** `NullPointerException` on driver
+**Solution:** Ensure test extends BaseTest
 
 ```java
-import org.apache.log4j.Logger;
-
-public class MyTest {
-    private static Logger logger = Logger.getLogger(MyTest.class);
-    
+// ✅ CORRECT
+public class MyTest extends BaseTest {
     @Test
-    public void testWithLogging() {
-        logger.info("Test started");
-        logger.debug("Debug information");
-        logger.error("Error occurred");
+    public void testExample() {
+        driver.navigate().to("...");  // driver is initialized
+    }
+}
+
+// ❌ WRONG
+public class MyTest {
+    @Test
+    public void testExample() {
+        driver.navigate().to("...");  // driver is null!
     }
 }
 ```
 
-## Contributing to This Library
+## Best Practices
 
-To add new utilities:
+1. **Always use BaseTest** - Ensures proper setup/teardown
+2. **Use explicit waits** - All BrowserUtils methods include waits
+3. **Register TestListener** - Get detailed execution logs
+4. **Clear naming** - Use descriptive test and element names
+5. **One assertion per test** - Keep tests focused
+6. **Handle timeouts** - Set appropriate wait times (10-15 seconds typical)
+7. **Log important steps** - Use logger in tests for debugging
 
-1. **Create utility class** in `com.sdet.utils`
-2. **Follow naming convention:** `*Utils.java`
-3. **Write reusable methods** with clear Javadoc
-4. **Add example usage** in this README
-
-Example:
-
-```java
-package com.sdet.utils;
-
-public class CustomUtils {
-    
-    /**
-     * Performs custom operation
-     * @param driver WebDriver instance
-     * @param param Parameter description
-     * @return Result description
-     */
-    public static String customMethod(WebDriver driver, String param) {
-        // Implementation
-        return result;
-    }
-}
-```
-
-## Resources & Learning
+## Resources
 
 - [Selenium WebDriver Docs](https://www.selenium.dev/documentation/)
-- [TestNG Tutorial](https://testng.org/doc/)
-- [REST Assured Guide](https://rest-assured.io/)
-- [Page Object Model](https://www.selenium.dev/documentation/test_practices/encouraged/page_object_models/)
-- [Design Patterns](https://www.digitalocean.com/community/tutorials/design-patterns-java)
-- [Java Best Practices](https://www.oracle.com/java/technologies/javase/codeconventions-136091.html)
+- [TestNG Documentation](https://testng.org/doc/)
+- [WebDriverManager](https://bonigarcia.dev/webdrivermanager/)
+- [Explicit Waits](https://www.selenium.dev/documentation/webdriver/waits/#explicit_wait)
+
+## Future Enhancements
+
+Potential additions to this library:
+- BasePage class for Page Object Model
+- Database utilities
+- File utilities (Excel, CSV, JSON)
+- Screenshot capture utility
+- Additional browsers (Edge, Safari, headless)
+- Configuration management
+- Custom assertions
 
 ## Author
 
@@ -705,10 +574,10 @@ This project is provided as-is for educational and professional use.
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 1.0.0 | May 2026 | Initial release with utilities, base classes, listeners |
+| 1.0.0 | May 2026 | Initial release: BaseTest, TestListener, BrowserUtils |
 
 ---
 
 **Last Updated:** May 2026  
 **Current Version:** 1.0.0  
-**Status:** Production Ready
+**Status:** Production Ready (3 core components)
