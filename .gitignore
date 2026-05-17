@@ -1,0 +1,34 @@
+# Maven
+target/
+*.jar
+*.war
+*.ear
+*.zip
+pom.xml.tag
+pom.xml.releaseBackup
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+*.classpath
+*.project
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Screenshots/Reports
+screenshots/
+reports/
+test-output/
+
+# Dependencies
+dependency-reduced-pom.xml
