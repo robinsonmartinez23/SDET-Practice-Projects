@@ -118,8 +118,21 @@ public class BasePage {
     }
 
     /**
-     * Example Page Object extending BasePage
+     * PATTERN: Page Returns (Fluent Page Navigation)
+     * Naveen's approach to avoid StaleElementReferenceException
      * 
+     * Problem:
+     * - When you click a button that navigates to new page, DOM changes
+     * - Old page references become STALE (no longer in DOM)
+     * - Can't reuse old page object
+     *
+     * Solution:
+     * - Make methods RETURN the NEXT page as a new object
+     * - Next page has FRESH element references from new DOM
+     * - Never hold stale references across page transitions
+     *
+     * Example:
+     *
      * public class LoginPage extends BasePage {
      *     private WebElement emailInput;
      *     private WebElement passwordInput;
@@ -137,10 +150,41 @@ public class BasePage {
      *         typeTextSafely(passwordInput, password, 10);
      *     }
      *
+     *     // ✅ CORRECT: Returns NEXT page (fresh references)
      *     public AccountsPage clickLogin() {
      *         clickElementSafely(loginButton, 10);
-     *         return new AccountsPage(driver);
+     *         return new AccountsPage(driver);  // New page = new elements
      *     }
      * }
+     *
+     * public class AccountsPage extends BasePage {
+     *     private WebElement accountHeader;
+     *
+     *     public AccountsPage(WebDriver driver) {
+     *         super(driver);
+     *     }
+     *
+     *     public String getAccountTitle() {
+     *         return getElementText(accountHeader, 10);
+     *     }
+     *
+     *     public LoginPage clickLogout() {
+     *         logoutButton.click();
+     *         return new LoginPage(driver);  // Back to login page
+     *     }
+     * }
+     *
+     * Usage in Test:
+     * LoginPage login = new LoginPage(driver);
+     * login.enterEmail("user@test.com");
+     * login.enterPassword("pass123");
+     * AccountsPage accounts = login.clickLogin();  // Returns NEXT page
+     *
+     * // accounts has FRESH references, no stale elements
+     * String title = accounts.getAccountTitle();  // Works!
+     *
+     * // If navigate back
+     * LoginPage loginAgain = accounts.clickLogout();  // New LoginPage object
+     * // loginAgain is FRESH, not the old one
      */
 }
